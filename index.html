@@ -52,7 +52,7 @@
         .logo-area span {
             font-size: 16px;
             font-weight: 600;
-            color: #c41e3a;
+            color: #050505;
         }
 
         .nav-tabs {
@@ -156,13 +156,6 @@
             margin-bottom: 40px;
             box-shadow: 0 2px 15px rgba(0,0,0,0.05);
         }
-
-        /* .pain-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-        } */
-
 
         .pain-list {
             display: grid;
@@ -309,7 +302,8 @@
         /* 图片对比样式 */
         .image-compare {
             display: flex;
-            align-items: center;
+            /* align-items: center; */
+            align-items: flex-start;
             gap: 20px;
             flex-wrap: wrap;
             justify-content: center;
@@ -319,6 +313,9 @@
             flex: 1;
             min-width: 250px;
             max-width: 400px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .compare-label {
@@ -364,6 +361,99 @@
             font-size: 0.85rem;
             color: #999;
             margin-top: 15px;
+        }
+
+        /* AI生成图片轮播样式 */
+        .ai-image-slider {
+            position: relative;
+            width: 100%;
+            max-width: 350px;
+        }
+
+        .ai-image-slides {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            aspect-ratio: 1/1;
+            background: #f5f5f5;
+        }
+
+        .ai-image-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .ai-image-slide.active {
+            opacity: 1;
+        }
+
+        .ai-image-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .ai-image-slide img:hover {
+            transform: scale(1.02);
+        }
+
+        .ai-image-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .ai-image-btn {
+            width: 36px;
+            height: 36px;
+            border: none;
+            background: #c41e3a;
+            color: white;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .ai-image-btn:hover {
+            background: #a01830;
+        }
+
+        .ai-image-dots {
+            display: flex;
+            gap: 8px;
+        }
+
+        .ai-image-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #ddd;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .ai-image-dot.active {
+            background: #c41e3a;
+        }
+
+        .ai-image-counter {
+            text-align: center;
+            font-size: 0.85rem;
+            color: #666;
+            margin-top: 10px;
         }
 
         /* 视频展示样式 */
@@ -789,6 +879,10 @@
             .case-type-title {
                 font-size: 1.1rem;
             }
+
+            .ai-image-slider {
+                max-width: 100%;
+            }
         }
     </style>
 </head>
@@ -867,7 +961,7 @@
                     </div>
                     <div class="highlight-card">
                         <div class="icon">📦</div>
-                        <h3>过程留痕</h3>
+                        <h3>成果可测</h3>
                         <p>每节课都有可量化成果<br>学习效果看得见</p>
                     </div>
                     <div class="highlight-card">
@@ -918,7 +1012,7 @@
                 </div>
             </div>
 
-            <!-- 案例2：商品主图 -->
+            <!-- 案例2：商品主图 - 修改为轮播 -->
             <div class="case-block">
                 <h3 class="case-type-title">🎨 图片设计：商品主图</h3>
                 <div class="image-compare">
@@ -931,12 +1025,35 @@
                     <div class="compare-arrow">→</div>
                     <div class="compare-item">
                         <div class="compare-label">AI优化主图</div>
-                        <div class="compare-image">
-                            <img src="product-after1.jpg" alt="AI优化后主图"> 
+                        <!-- 新增轮播组件 -->
+                        <div class="ai-image-slider" id="aiImageSlider">
+                            <div class="ai-image-slides">
+                                <div class="ai-image-slide active">
+                                    <img src="product-after1.jpg" alt="AI优化主图1">
+                                </div>
+                                <div class="ai-image-slide">
+                                    <img src="product-after2.jpg" alt="AI优化主图2">
+                                </div>
+                                <div class="ai-image-slide">
+                                    <img src="product-after3.jpg" alt="AI优化主图3">
+                                </div>
+                            </div>
+                            <div class="ai-image-controls">
+                                <button class="ai-image-btn ai-prev">‹</button>
+                                <div class="ai-image-dots">
+                                    <span class="ai-image-dot active" data-index="0"></span>
+                                    <span class="ai-image-dot" data-index="1"></span>
+                                    <span class="ai-image-dot" data-index="2"></span>
+                                </div>
+                                <button class="ai-image-btn ai-next">›</button>
+                            </div>
+                            <div class="ai-image-counter">
+                                <span class="current-slide">1</span> / <span class="total-slides">3</span>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <p class="case-note">点击图片可放大查看</p>
+                <p class="case-note">左右滑动切换不同AI生成效果</p>
             </div>
 
             <!-- 案例3：宣传片 -->
@@ -988,7 +1105,7 @@
 
             <!-- 案例5：PPT -->
             <div class="case-block">
-                <h3 class="case-type-title">📊 PPT设计：商业提案</h3>
+                <h3 class="case-type-title">📊 PPT设计：成果汇报</h3>
                 <div class="ppt-showcase">
                     <div class="ppt-slider">
                         <div class="ppt-slides">
@@ -1239,6 +1356,52 @@
                 currentSlide = (currentSlide + 1) % slides.length;
                 showSlide(currentSlide);
             }, 4000);
+        }
+
+        // AI图片轮播功能
+        const aiSlider = document.getElementById('aiImageSlider');
+        if (aiSlider) {
+            const aiSlides = aiSlider.querySelectorAll('.ai-image-slide');
+            const aiDots = aiSlider.querySelectorAll('.ai-image-dot');
+            const aiPrevBtn = aiSlider.querySelector('.ai-prev');
+            const aiNextBtn = aiSlider.querySelector('.ai-next');
+            const currentSlideSpan = aiSlider.querySelector('.current-slide');
+            let currentAiSlide = 0;
+
+            function showAiSlide(index) {
+                aiSlides.forEach(s => s.classList.remove('active'));
+                aiDots.forEach(d => d.classList.remove('active'));
+                aiSlides[index].classList.add('active');
+                aiDots[index].classList.add('active');
+                if (currentSlideSpan) {
+                    currentSlideSpan.textContent = index + 1;
+                }
+            }
+
+            if (aiPrevBtn && aiNextBtn && aiSlides.length > 0) {
+                aiPrevBtn.addEventListener('click', () => {
+                    currentAiSlide = (currentAiSlide - 1 + aiSlides.length) % aiSlides.length;
+                    showAiSlide(currentAiSlide);
+                });
+
+                aiNextBtn.addEventListener('click', () => {
+                    currentAiSlide = (currentAiSlide + 1) % aiSlides.length;
+                    showAiSlide(currentAiSlide);
+                });
+
+                aiDots.forEach((dot, index) => {
+                    dot.addEventListener('click', () => {
+                        currentAiSlide = index;
+                        showAiSlide(currentAiSlide);
+                    });
+                });
+
+                // AI图片自动轮播（5秒切换）
+                setInterval(() => {
+                    currentAiSlide = (currentAiSlide + 1) % aiSlides.length;
+                    showAiSlide(currentAiSlide);
+                }, 5000);
+            }
         }
     </script>
 </body>
